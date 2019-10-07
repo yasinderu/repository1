@@ -7,4 +7,5 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', views.home),
+    path('itinerary/', views.itinerary),
 ]
