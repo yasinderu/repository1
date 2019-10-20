@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'blog',
-    'Profile',
+    'itinerary',
 ]
 
 MIDDLEWARE = [
@@ -129,3 +129,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [ 
     os.path.join(BASE_DIR, 'static'), 
 ]
+
+# Google Maps API
+#GOOGLE_MAPS_API_KEY = 

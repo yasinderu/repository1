@@ -1,20 +1,41 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>{{page_title}}</title>
+	<link rel="stylesheet" type="text/css" href="{% static "css/bulma.css" %}">
 </head>
 <body>
-	<div class="content-section">
+
+	<div class="column is-mobile">
+		<div class="column is-half is-offset-one-quarter">
+			<form action="{% url 'register' %}" method="POST">
+				{% csrf_token %}
+				{% for field in form %}
+					<div class="field">
+						<label for="{{ field.id_for_label }}" class="label">{{field.html_name}}</label>
+						{{field}}
+					</div>
+				{% endfor %}
+				<div class="form-group">
+					<button class="btn btn-outline-info" type="submit">Sign Up</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- <div class="content-section">
 		<form method="POST">
 			{% csrf_token %}
 			<fieldset class="form-group">
 				<legend class="border-bottom mb-4">Register</legend>
-				{{ form }}
+				{{ field }}
 			</fieldset>
 			<div class="form-group">
 				<button class="btn btn-outline-info" type="submit">Sign Up</button>
 			</div>
 		</form>
 	</div>
+	-->
 </body>
 </html>
