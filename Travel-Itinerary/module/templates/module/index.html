@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{page_title}}</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script type="text/javascript" src="{% static "js/maps/maps.js" %}"></script>
+	<script type="text/javascript" defer src="https://maps.googleapis.com/maps/api/place/autocomplete/output?key=AIzaSyAxLtcPtG-gXYBVdIX8jxrwFID-qwWt0hA"></script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWMHuuZDyr8d9wBv9ONFpO4eOTy_GFBMc&libraries=places&callback=activatePlacesSearch"></script>
+	<link rel="stylesheet" type="text/css" href="{% static "vendor/bootstrap/css/bootstrap.min.css" %}">
+</head>
+<body>
+	
+	<div class="container">
+		<div class="row">
+			<div class="jumbotron">
+				<h1>Halaman untuk membuat itinerary</h1>
+				<h2>Menghitung jarak</h2>
+			</div>
+			<div class="col-md-6">
+				<form id="distance_form">
+					<div class="form-group">
+						<label>Origin : </label>
+						<input id="from_places" class="form-control" placeholder="masukan alamat">
+						<input type="hidden" name="from_places 	" id="from_places">
+					</div>
+					<div class="form-group">
+						<label>Destination : </label>
+						<input id="to_places" class="form-control" placeholder="masukan alamat tujuan">
+						<input type="hidden" name="destination" id="destination">
+					</div>
+					<input type="submit" name="calculate" class="btn btn-primary">
+				</form>
+			</div>
+		</div>
+	</div>
+	<script>
+		function activatePlacesSearch(){
+			var from_places = new google.maps.places.Autocomplete(document.getElementById('from_places'));
+			var to_places = new google.maps.places.Autocomplete(document.getElementById('to_places'));
+		}
+	</script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWMHuuZDyr8d9wBv9ONFpO4eOTy_GFBMc&libraries=places&callback=activatePlacesSearch" async defer></script>
+</body>
+</html>
