@@ -5,5 +5,4 @@ from . import views
 
 urlpatterns = [
 	url(r'^itinerary/', views.index, name='itinerary'),
-	url(r'^search/', views.search, name='search'),
 ]
