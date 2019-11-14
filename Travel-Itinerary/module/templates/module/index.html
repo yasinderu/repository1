@@ -28,22 +28,22 @@
 		<div class="row">
 			<div class="jumbotron">
 				<h1>Halaman untuk membuat itinerary</h1>
-				<h2>Menghitung jarak</h2>
 			</div>
 			<div class="col-md-6">
 				<form id="distance_form" method="POST">
 					{% csrf_token %}
 					<div class="form-group">
-                    <label class="control-label">Lokasi Tujuan</label>
-
-                    <div class="destinations">
-                      <div class="row destination-list">
-
+                        <label class="control-label">Jumlah Hari</label>
                         <div class="col-md-11">
                           <div class="m-b-sm">
                             <input class="form-control select2 select-destination" id="days" name="days" data-width="100%" required></input>
                           </div>
                         </div>
+                    <label class="control-label">Lokasi Tujuan</label>
+
+                    <div class="destinations">
+                      <div class="row destination-list">
+
 
                         <div class="col-md-11">
                           <div class="m-b-sm">
@@ -71,17 +71,86 @@
                             <input class="form-control select2 select-destination" id="dest4" name="origin" data-width="100%" required></input>
                           </div>
                         </div>
+                        <div class="col-md-11">
+                          <div class="m-b-sm">
+                            <input class="form-control select2 select-destination" name="origin" data-width="100%" required></input>
+                          </div>
+                        </div>
+                        <div class="col-md-11">
+                          <div class="m-b-sm">
+                            <input class="form-control select2 select-destination" id="dest4" name="origin" data-width="100%" required></input>
+                          </div>
+                        </div>
+                        <div class="col-md-11">
+                          <div class="m-b-sm">
+                            <input class="form-control select2 select-destination" name="origin" data-width="100%" required></input>
+                          </div>
+                        </div>
+                        <div class="col-md-11">
+                          <div class="m-b-sm">
+                            <input class="form-control select2 select-destination" id="dest4" name="origin" data-width="100%" required></input>
+                          </div>
+                        </div>
+                        <div class="col-md-11">
+                          <div class="m-b-sm">
+                            <input class="form-control select2 select-destination" name="origin" data-width="100%" required></input>
+                          </div>
+                        </div>
+                        <div class="col-md-11">
+                          <div class="m-b-sm">
+                            <input class="form-control select2 select-destination" id="dest4" name="origin" data-width="100%" required></input>
+                          </div>
+                        </div>
+                        <div class="col-md-11">
+                          <div class="m-b-sm">
+                            <input class="form-control select2 select-destination" name="origin" data-width="100%" required></input>
+                          </div>
+                        </div>
+                        <div class="col-md-11">
+                          <div class="m-b-sm">
+                            <input class="form-control select2 select-destination" name="origin" data-width="100%" required></input>
+                          </div>
+                        </div>
+                        <div class="col-md-11">
+                          <div class="m-b-sm">
+                            <input class="form-control select2 select-destination" id="dest4" name="origin" data-width="100%" required></input>
+                          </div>
+                        </div>
+                        <div class="col-md-11">
+                          <div class="m-b-sm">
+                            <input class="form-control select2 select-destination" name="origin" data-width="100%" required></input>
+                          </div>
+                        </div>
+                        <div class="col-md-11">
+                          <div class="m-b-sm">
+                            <input class="form-control select2 select-destination" id="dest4" name="origin" data-width="100%" required></input>
+                          </div>
+                        </div>
+                        <div class="col-md-11">
+                          <div class="m-b-sm">
+                            <input class="form-control select2 select-destination" name="origin" data-width="100%" required></input>
+                          </div>
+                        </div>
+                        <div class="col-md-11">
+                          <div class="m-b-sm">
+                            <input class="form-control select2 select-destination" name="origin" data-width="100%" required></input>
+                          </div>
+                        </div>
+                        <div class="col-md-11">
+                          <div class="m-b-sm">
+                            <input class="form-control select2 select-destination" id="dest4" name="origin" data-width="100%" required></input>
+                          </div>
+                        </div>
+                        <div class="col-md-11">
+                          <div class="m-b-sm">
+                            <input class="form-control select2 select-destination" name="origin" data-width="100%" required></input>
+                          </div>
+                        </div>
                         <div class="col-md-1 h-30 vertical-center">
                           <div class="glyphicon glyphicon-remove remove-btn"></div>
                         </div>
                       </div>
                     </div>
-                  </div>
-
-                  <div class="m-b-lg">
-                    <button id="add-destination" type="button" class="btn btn-circle btn-primary">
-                      <span class="glyphicon glyphicon-plus" style="font-size: 15px" aria-hidden="true"></span>
-                    </button>
                   </div>
 					<input type="submit" name="calculate" class="btn btn-primary">
 				</form>

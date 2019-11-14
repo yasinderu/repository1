@@ -23,7 +23,6 @@ class ga(threading.Thread):
 	def routeDistance(self, route):
 		routeDistance = 0
 		threadss = []
-		locks = threading.Lock()
 		for i in range(0, len(route)):
 			fromCity = route[i]
 			toCity = None
@@ -31,7 +30,9 @@ class ga(threading.Thread):
 				toCity = route[i + 1]
 			else:
 				toCity = route[0]
+			# thread2 = threading.Thread(target=self.getDistance, args=(fromCity, toCity),)
 			routeDistance += self.getDistance(fromCity, toCity)
+			# thread2.start()
 		totalDistance = routeDistance
 		return totalDistance
 
@@ -66,6 +67,8 @@ class ga(threading.Thread):
 		# 	t1.start()
 		# 	threads.append(t1)
 			fitnessResults[i] = self.routeFitness(currentGen[i])
+			# thread2 = threading.Thread(target=self.routeFitness, args=[currentGen[i]])
+			# thread2.start()
 		# for thread in threads:
 		# 	t1.join()
 		sorteds = sorted(fitnessResults.items(), key = operator.itemgetter(1), reverse=True)
@@ -165,6 +168,9 @@ class ga(threading.Thread):
 		# threads = []
 		for i in range(0, self.generations):
 			pops = self.nextGeneration(pops)
+			# thread1 = threading.Thread(target=self.nextGeneration, args=[pops])
+			# thread1.start()
+			# pops = threading.Thread(target=self.nextGeneration(pops))
 		# 	t2 = threading.Thread(target=self.nextGeneration, args=(pops))
 		# 	t2.start()
 		# 	threads.append(t2)
@@ -174,7 +180,8 @@ class ga(threading.Thread):
 		bestRouteIndex = self.rankRoutes(pops)[0][0]
 		bestRoute = pops[bestRouteIndex]
 		result = {'routes':bestRoute, 'distance': final_distance}
-		#print("Running Time : " + str(end_time - start_time))
-		print(str(bestRoute))
-		print(result)
-		return bestRoute, str(final_distance)
+		end_time = time.time()
+		print("Best route : " + str(bestRoute))
+		print("Distance : " + str(final_distance))
+		print("Running Time : " + str(end_time - start_time))
+		return bestRoute, final_distance
