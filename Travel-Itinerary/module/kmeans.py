@@ -23,7 +23,12 @@ class clustering(threading.Thread):
 	def kmeans(self):
 		d = {'lat':self.lat, 'lng':self.lng}
 		df = pd.DataFrame(data=d, index=self.list_addr)
-		demand = [6,6,6]
+		cons = int(len(self.list_addr)/self.nclusters)
+		
+		demand = []
+		for i in range(self.nclusters):
+			demand.append(cons)
+
 		(C, M, F) = constrained_kmeans(df, demand)
 
 		score = silhouette_score(df, M)

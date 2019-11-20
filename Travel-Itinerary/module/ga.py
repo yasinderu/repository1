@@ -5,12 +5,13 @@ import threading, concurrent.futures
 gmaps = googlemaps.Client(key=key)
 
 class ga(threading.Thread):
-	def __init__(self, distMatrice):
+	def __init__(self, distMatrice, durMatrice):
 		threading.Thread.__init__(self)
 		self.distMatrice = distMatrice
+		self.durMatrice = durMatrice
 		self.distance_val = []
 		self.popSize = 50
-		self.eliteSize = 30
+		self.eliteSize = 20
 		self.mutationRate = 0.01
 		self.generations = 50
 
@@ -19,6 +20,23 @@ class ga(threading.Thread):
 		distance = self.distMatrice[fromCity][toCity]
 		#locks.release()
 		return distance
+
+	def getDuration(self, route):
+		duration = 0
+		for i in range(0, len(route)):
+			fromCity = route[i]
+			toCity = None
+			if i + 1 < len(route):
+				toCity = route[i + 1]
+			else:
+				toCity = route[0]
+			duration += self.durMatrice[fromCity][toCity]
+		if duration/3600 > 1:
+			totalDuration = int(duration/3600), 'Jam', int(duration%3600)/60, 'Menit'
+		else:
+			totalDuration = int(duration/60), 'Menit'
+		# totalDuration = duration	
+		return totalDuration
 
 	def routeDistance(self, route):
 		routeDistance = 0
@@ -40,7 +58,10 @@ class ga(threading.Thread):
 		# t1 = threading.Thread(target = self.routeDistance, args=(route))
 		# t1.start()
 		# lock.acquire()
-		fitness = 1 / float(self.routeDistance(route))
+		if len(route) == 1:
+			fitness = 1
+		else:
+			fitness = 1 / float(self.routeDistance(route))
 		# lock.release()
 		# t1.join()
 		return fitness
@@ -179,9 +200,11 @@ class ga(threading.Thread):
 		final_distance = float(1/self.rankRoutes(pops)[0][1]) / 1000
 		bestRouteIndex = self.rankRoutes(pops)[0][0]
 		bestRoute = pops[bestRouteIndex]
-		result = {'routes':bestRoute, 'distance': final_distance}
+		duration = self.getDuration(bestRoute)
+		result = {'routes':bestRoute, 'distance': final_distance, 'duration': duration}
 		end_time = time.time()
 		print("Best route : " + str(bestRoute))
 		print("Distance : " + str(final_distance))
 		print("Running Time : " + str(end_time - start_time))
-		return bestRoute, final_distance
+		# return bestRoute, final_distance
+		return result
