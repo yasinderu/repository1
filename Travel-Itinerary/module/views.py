@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from .key import key
 from django.views import View
 import pandas as pd, time, random, numpy as np, operator, googlemaps, threading, concurrent.futures
@@ -23,7 +24,16 @@ def index(request):
 		data = request.POST
 		nclusters = int(request.POST['days'])
 		dataCopy = data.copy()
-		list_addr = dataCopy.pop('origin')
+		origin = request.POST['origin']
+		list_addr = dataCopy.pop('destination')
+
+		if len(list_addr) <= nclusters:
+			messages.error(request, 'Jumlah destinasi tidak boleh kurang dari jumlah hari')
+			return redirect('itinerary')
+
+		cluster = clustering(list_addr, nclusters)
+		route = cluster.kmeans()
+		list_addr.insert(0, origin)
 		# list_addrM = ['candi prambanan','istana ratu boko','gembira loka zoo','kraton yogyakarta','malioboro yogyakarta','benteng vredeburg','candi mendut','candi borobudur','sindu kusuma edupark','jogja bay waterpark','Taman Sari, Patehan, Yogyakarta City, Special Region of Yogyakarta, Indonesia','alun alun kidul yogyakarta','taman pelangi jogja','taman pintar yogyakarta','pasar beringharjo yogyakarta','tebing breksi','museum gunungapi merapi','hutan pinus pengger','puncak becici','bukit paralayang watugupit']
 
 		distance_val = []
@@ -47,9 +57,7 @@ def index(request):
 		# print(distMatrice)
 
 		#initialize genetic algorithm & k-means class
-		GA = ga(distMatrice, durMatrice)
-		cluster = clustering(list_addr, nclusters)
-		route = cluster.kmeans()
+		GA = ga(distMatrice, durMatrice, origin)
 
 		#return the route and final distance for each route
 		if list_addr is not None:
@@ -75,12 +83,14 @@ def index(request):
 			# thread2.join()
 			
 			results = json.dumps(result)
-			print(results)
+			print(result)
 			context = {
 				'page_title':'Results',
 				'results':result,
+				'result_json':results,
 			}
 
+			request.session['result'] = result
 			end_time = time.time()
 			print (str(end_time - start_time))
 			return render(request, template_name, context)
@@ -90,6 +100,11 @@ def index(request):
 
 # def viewMap(request, result):
 # 	pass
+
+def result(request):
+	if request.session.has_key('result'):
+		result = request.session['result']
+		return render(request, 'module/result2.html', {'results':result})
 
 def split(arr, size):
 	arrs = []

@@ -8,14 +8,14 @@ import threading
 gmaps = googlemaps.Client(key=key)
 
 class clustering(threading.Thread):
-	def __init__(self, list_addr, nclusters):
+	def __init__(self, list_dest, nclusters):
 		threading.Thread.__init__(self)
-		self.list_addr = list_addr
+		self.list_addr = list_dest
 		self.nclusters = nclusters
 		self.lat = []
 		self.lng = []
 
-		for k in list_addr:
+		for k in list_dest:
 			loc = gmaps.geocode(k)
 			self.lat.append(loc[0]['geometry']['location']['lat'])
 			self.lng.append(loc[0]['geometry']['location']['lng'])
@@ -41,8 +41,4 @@ class clustering(threading.Thread):
 			else:
 				clusters[item] = [self.list_addr[n]]
 			n+=1
-
-		# # print(score)
-		# print(clusters)
-		# print(df)
 		return clusters

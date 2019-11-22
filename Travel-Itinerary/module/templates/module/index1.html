@@ -30,17 +30,29 @@
 				      				</div>
 				      			</div>
 					        </div>
+					        <div class="form-group">
+					        	<label>Lokasi Awal</label>
+					        	<input class="form-control select-destination" type="text" id="origin" name="origin" required="required"/>
+					        </div>
 					        <div class="destinations">
-					        	<label>Destinations</label>
-					        	<div class="destination-list">
+					        	<label>Lokasi Tujuan</label>
 					        		<div class="form-group">
-					        			<input class="form-control select-destination" type="text" name="origin" required="required"/>
+					        			<input class="form-control select-destination" type="text" name="destination" required="required"/>
 					        		</div>
-					        	</div>
+					        	
 					        	<div class="col-md-1 h-30 vertical-center">
                           			<div class="glyphicon glyphicon-remove remove-btn"></div>
                         		</div>
 					        </div>
+					        {% if messages %}
+					        {% for message in messages %}
+					        	<div class="alert alert-danger">
+					        		<div class="form-group" role="alert">
+					        			{{message}}
+					        		</div>
+					        	</div>
+					        {% endfor %}
+					        {% endif %}
 					        <div class="form-group">
                     			<button id="add-destination" type="button" class="btn btn-primary btn-circle">Add Destination
                     			</button>
@@ -84,5 +96,11 @@
 		</div>
 	</div>
 <script src="{% static "js/createItinerary.js" %}"></script>
+<script type="text/javascript">
+	function activatePlacesSearch(){
+        var origin = new google.maps.places.Autocomplete(document.getElementById('origin'));
+	}
+</script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR API KEY&libraries=places&callback=activatePlacesSearch" async defer></script>
 </body>
 </html>

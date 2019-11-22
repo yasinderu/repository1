@@ -50,7 +50,7 @@
         <a class="blog-header-logo text-dark" href="#"></a>
       </div>
       <div class="col-4 d-flex justify-content-end align-items-center">
-        <a class="btn btn-sm btn-outline-secondary" href="#">Sign up</a>
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'result' %}">Sign up</a>
       </div>
     </div>
   </header>
@@ -156,12 +156,6 @@
     }
 
     var map = new google.maps.Map(document.getElementById('map'), option);
-
-    // $(document).ready(function(){
-    //   $("#select").click(fucntion(){
-    //     $("#map").toggle(1000);
-    //   });
-    // });  
   } 
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=YOUR API KEY&callback=initMap"
