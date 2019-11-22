@@ -29,9 +29,31 @@
         }
       }
 
-      #map {
-        height: 500px;
-        width: 100%;
+      .map-marker {
+        position: absolute;
+        background-color: #fff;
+        width: 155px;
+        height: 40px;
+        border-radius: 100px;
+        padding: 4px;
+        padding-right: 15px;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        top: -42px;
+        left: -77px;
+        -webkit-box-shadow: 0 2px 5px #999;
+        box-shadow: 0 2px 5px #999;
+        z-index: 4;
+        color: #4a4a4a;
+      }
+
+      #map_canvas1{
+        height:500px;
+        height:500px;
+      }
+      #map_canvas2{
+        height:500px;
+        height:500px;
       }
     </style>
     <!-- Custom styles for this template -->
@@ -50,7 +72,7 @@
         <a class="blog-header-logo text-dark" href="#"></a>
       </div>
       <div class="col-4 d-flex justify-content-end align-items-center">
-        <a class="btn btn-sm btn-outline-secondary" href="{% url 'result' %}">Sign up</a>
+        <a id="demo" class="btn btn-sm btn-outline-secondary" href="{% url 'result' %}"></a>
       </div>
     </div>
   </header>
@@ -61,6 +83,21 @@
       <p class="lead mb-0"><a href="#" class="text-white font-weight-bold"></a></p>
     </div>
   </div>
+
+  <div class="days-selection-outer">
+      <div class="days-selection h-center">
+        <ul>
+          <li class="fixed-dt">Hari ke - </li>
+          {% for cluster, result in results.items %}
+            {% if cluster == 1 %}
+              <li class="select-day selected" day="{{cluster}}">{{cluster}}</li>
+            {% else %}
+              <li class="select-day" day="{{cluster}}">{{cluster}}</li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
   
     <div class="row mb-2">
     {% for cluster, result in results.items %}
@@ -89,7 +126,9 @@
       </div>
     {% endfor %}
     </div>
-    <div id="map"></div>
+    {% for cluster, result in results.items %}
+      <div id="map_canvas{{cluster}}"></div>
+    {% endfor %}
 </div>
 
 <!-- Footer -->
@@ -147,18 +186,150 @@
 
 </footer>
 <!-- Footer -->
-
-<script>
-  function initMap(){
-    var option = {
-      zoom: 10,
-      center: {lat: -7.8032076, lng: 110.3573354}
-    }
-
-    var map = new google.maps.Map(document.getElementById('map'), option);
-  } 
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR API KEY&callback=initMap"
+<script src="{% static "js/jquery-3.2.1.min.js" %}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR API&callback=initialize"
     async defer></script>
+<script type="text/javascript" src="{% static "js/richmarker.js" %}"></script>
+<script type="text/javascript">
+      function initialize() {
+        window.map = [];
+
+        function renderDirections(day, result, color) {
+          var polylineOptions = {
+            strokeColor: color,
+            strokeWeight: 5,
+            strokeOpacity: 1.0
+          };
+
+          var dr = new google.maps.DirectionsRenderer({
+            polylineOptions: polylineOptions,
+            map: window.map[day],
+            preserveViewport: true
+          });
+
+          dr.setDirections(result);
+        }
+
+        function requestDirections(day, locations, color, lat, lng) {
+          var elId = 'map_canvas' + day;
+
+          setTimeout(function () {
+            window.map[day] = new google.maps.Map(document.getElementById(elId), {
+              zoom: 11,
+              mapTypeId: google.maps.MapTypeId.ROADMAP,
+              center: new google.maps.LatLng(-7.797068, 110.370529)
+            });
+
+            var request = {
+              travelMode: google.maps.DirectionsTravelMode.DRIVING,
+              optimizeWaypoints: true
+            };
+
+            if (locations.length > 1) {
+              request.waypoints = [];
+            }
+
+            var marker = [];
+            for (var i = 0; i < locations.length - 1; i++) {
+              var content = '<div class="map-marker">' +
+                '<div class="loc-detil" style="background-color:' + color + '"></div>' +
+                '<div class="loc-name">' + locations[i];
+
+              if (i == 0 || i == locations.length - 1) {
+                content += ' <span>Lokasi Awal & Akhir</span></div>';
+              } else {
+                content += ' <span>Destinasi ke-' + i + '</span></div>';
+              }
+
+              content += '</div>';
+
+              // marker[i] = new RichMarker({
+              //   position: new google.maps.LatLng(lat, lng),
+              //   map: window.map[day],
+              //   content: content,
+              //   shadow: 0
+              // });
+
+              marker[i] = new google.maps.Marker({
+                position: new google.maps.LatLng(lat[i], lng[i]),
+                map: window.map[day],
+                content: content,
+                shadow: 0
+              });
+
+              if (i === 0) {
+                request.origin = marker[i].getPosition();
+              } else if (i === locations.length - 1) {
+                request.destination = marker[i].getPosition();
+              } else {
+                request.waypoints.push({
+                  location: marker[i].getPosition(),
+                  stopover: true
+                });
+              }
+            }
+
+            var ds = new google.maps.DirectionsService();
+
+            ds.route(request, function (response, status) {
+              if (status === 'OK') {
+                renderDirections(day, response, color);
+
+                // var lastLoc = locations[locations.length - 1];
+                var lastLat = lat[lat.length - 1]
+                var lastLng = lng[lng.length - 1]
+                request.origin = request.destination;
+                request.waypoints = undefined;
+                request.destination = new google.maps.LatLng(lastLat, lastLng);
+
+                ds.route(request, function (response, status) {
+                  if (status === 'OK') {
+                    renderDirections(day, response, '#' + color.substr(1).split('').reverse().join(''));
+                  } else {
+                    console.log('Could not display directions due to: ' + status);
+                  }
+                });
+              } else {
+                console.log('Could not display directions due to: ' + status);
+              }
+            });
+          }, 2500);
+        }
+
+        var Data = '{{result_json}}';
+        var itineraryData = JSON.parse(Data.replace(/&quot;/g, '"'));
+
+        $('.select-day').click(function() {
+          var self = $(this);
+          var buttons = $('.select-day');
+          var color = "#0066ff"
+
+          buttons.each(function () {
+            $(this).removeClass('selected');
+          });
+
+          self.addClass('selected');
+
+          var day = $(this).attr('day');
+
+          var boxes = $('.map-box');
+
+          boxes.each(function () {
+            $(this).hide();
+          });
+
+          $('.map-box-' + day).fadeIn(500);
+
+          var data = itineraryData[day];
+
+          requestDirections(day, data.routes, color, data.lat, data.lng);
+        });
+
+        $('.select-day')[0].click();
+      }
+
+      // google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+    
 </body>
 </html> 

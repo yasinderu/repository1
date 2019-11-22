@@ -83,7 +83,8 @@ def index(request):
 			# thread2.join()
 			
 			results = json.dumps(result)
-			print(result)
+			# print(result)
+			print(results)
 			context = {
 				'page_title':'Results',
 				'results':result,
