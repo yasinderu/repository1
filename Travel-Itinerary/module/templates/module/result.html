@@ -29,6 +29,15 @@
         }
       }
 
+      #map_canvas1{
+        height:500px;
+        height:500px;
+      }
+      #map_canvas2{
+        height:500px;
+        height:500px;
+      }
+
       .map-marker {
         position: absolute;
         background-color: #fff;
@@ -47,58 +56,104 @@
         color: #4a4a4a;
       }
 
-      #map_canvas1{
-        height:500px;
-        height:500px;
+      .map-marker .loc-detil {
+        position: relative;
+        z-index: 2;
+        width: 32px;
+        height: 32px;
+        float: left;
+        border-radius: 20px;
+        color: #fff;
+        text-align: center;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        font-size: 16px;
+        line-height: 19px;
+        padding-top: 2px;
       }
-      #map_canvas2{
-        height:500px;
-        height:500px;
+
+      .map-marker .loc-name {
+        margin-top: 2px;
+        margin-left: 43px;
+        font-size: 15px;
+        white-space: nowrap;
+        overflow: hidden;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        font-weight: 400;
+      }
+
+      .map-marker .loc-name span {
+        display: block;
+        font-size: 10px;
+        margin-top: -2px;
+        font-weight: 200;
+      }
+
+      .days-selection-outer {
+        background: #000000;
+        color: #fff;
+        margin: 0 auto;
+        height: 50px;
+        /*overflow-y: auto;*/
+      }
+
+      .days-selection ul {
+        list-style: none;
+        padding-top: 10px;
+        height: 100%;
+      }
+
+      .days-selection ul li {
+        float: left;
+      }
+
+      .days-selection .fixed-dt {
+        padding-top: 5px;
+        font-weight: bold;
+        margin-right: 15px;
+        font-size: 17px;
+      }
+
+      .days-selection .select-day {
+        cursor: pointer;
+        background: #fff;
+        color: #000;
+        padding: 3px 10px;
+        border-radius: 3px;
+        margin-right: 8px;
+        font-size: 18px;
+      }
+
+      .days-selection .select-day.selected {
+        background: #4285F4;
+        color: #fff;
       }
     </style>
     <!-- Custom styles for this template -->
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="{% static "css/blog.css" %}" rel="stylesheet">
+    {# <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}"> #}
   </head>
   <body>
 <div class="container">
   <header class="blog-header py-3">
-    <div class="row flex-nowrap justify-content-between align-items-center">
-      <div class="col-4 pt-1">
-        <a class="text-muted" href="#"></a>
+      <div class="days-selection-outer">
+        <div class="days-selection h-center">
+          <ul>
+            <li class="fixed-dt">Hari ke - </li>
+            {% for cluster, result in results.items %}
+              {% if cluster == 1 %}
+                <li class="select-day selected" day="{{cluster}}">{{cluster}}</li>
+              {% else %}
+                <li class="select-day" day="{{cluster}}">{{cluster}}</li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
       </div>
-      <div class="col-4 text-center">
-        <a class="blog-header-logo text-dark" href="#"></a>
-      </div>
-      <div class="col-4 d-flex justify-content-end align-items-center">
-        <a id="demo" class="btn btn-sm btn-outline-secondary" href="{% url 'result' %}"></a>
-      </div>
-    </div>
   </header>
-  <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
-    <div class="col-md-6 px-0">
-      <h1 class="display-4 font-italic"></h1>
-      <p class="lead my-3"></p>
-      <p class="lead mb-0"><a href="#" class="text-white font-weight-bold"></a></p>
-    </div>
-  </div>
-
-  <div class="days-selection-outer">
-      <div class="days-selection h-center">
-        <ul>
-          <li class="fixed-dt">Hari ke - </li>
-          {% for cluster, result in results.items %}
-            {% if cluster == 1 %}
-              <li class="select-day selected" day="{{cluster}}">{{cluster}}</li>
-            {% else %}
-              <li class="select-day" day="{{cluster}}">{{cluster}}</li>
-            {% endif %}
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-  
     <div class="row mb-2">
     {% for cluster, result in results.items %}
       <div class="col-sm-6">
@@ -187,8 +242,7 @@
 </footer>
 <!-- Footer -->
 <script src="{% static "js/jquery-3.2.1.min.js" %}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR API&callback=initialize"
-    async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMxUjBrjxJGKIq48vQAAwbN4lLSlD16FQ&libraries=geometry,places"></script>
 <script type="text/javascript" src="{% static "js/richmarker.js" %}"></script>
 <script type="text/javascript">
       function initialize() {
@@ -198,6 +252,7 @@
           var polylineOptions = {
             strokeColor: color,
             strokeWeight: 5,
+            // strokeHeight: 10,
             strokeOpacity: 1.0
           };
 
@@ -210,12 +265,12 @@
           dr.setDirections(result);
         }
 
-        function requestDirections(day, locations, color, lat, lng) {
+        function requestDirections(day, locations, color, lat, lng, place_id) {
           var elId = 'map_canvas' + day;
 
           setTimeout(function () {
             window.map[day] = new google.maps.Map(document.getElementById(elId), {
-              zoom: 11,
+              zoom: 12,
               mapTypeId: google.maps.MapTypeId.ROADMAP,
               center: new google.maps.LatLng(-7.797068, 110.370529)
             });
@@ -230,12 +285,19 @@
             }
 
             var marker = [];
-            for (var i = 0; i < locations.length - 1; i++) {
-              var content = '<div class="map-marker">' +
-                '<div class="loc-detil" style="background-color:' + color + '"></div>' +
-                '<div class="loc-name">' + locations[i];
+            for (var i = 0; i < locations.length; i++) {
 
-              if (i == 0 || i == locations.length - 1) {
+              if (i == 0 || i == locations.length){
+                var content = '<div class="map-marker">' +
+                '<div class="loc-detil" style="background-color:' + color + '"></div>' + 
+                '<div class="loc-name">' + 'Lokasi Anda' + '<br>';
+              }else{
+                var content = '<div class="map-marker">' +
+                '<div class="loc-detil" style="background-color:' + color + '"></div>' + 
+                '<div class="loc-name">' + locations[i] + '<br>';
+              }
+
+              if (i == 0 || i == locations.length) {
                 content += ' <span>Lokasi Awal & Akhir</span></div>';
               } else {
                 content += ' <span>Destinasi ke-' + i + '</span></div>';
@@ -250,7 +312,7 @@
               //   shadow: 0
               // });
 
-              marker[i] = new google.maps.Marker({
+              marker[i] = new RichMarker({
                 position: new google.maps.LatLng(lat[i], lng[i]),
                 map: window.map[day],
                 content: content,
@@ -276,11 +338,9 @@
                 renderDirections(day, response, color);
 
                 // var lastLoc = locations[locations.length - 1];
-                var lastLat = lat[lat.length - 1]
-                var lastLng = lng[lng.length - 1]
                 request.origin = request.destination;
                 request.waypoints = undefined;
-                request.destination = new google.maps.LatLng(lastLat, lastLng);
+                request.destination = locations[locations.length - 1];
 
                 ds.route(request, function (response, status) {
                   if (status === 'OK') {
@@ -299,10 +359,19 @@
         var Data = '{{result_json}}';
         var itineraryData = JSON.parse(Data.replace(/&quot;/g, '"'));
 
+        function getRandomColor() {
+          var letters = '0123456789ABCDEF';
+          var color = '#';
+          for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+          }
+        return color;
+      }
+
         $('.select-day').click(function() {
           var self = $(this);
           var buttons = $('.select-day');
-          var color = "#0066ff"
+          var color = getRandomColor();
 
           buttons.each(function () {
             $(this).removeClass('selected');
@@ -322,13 +391,13 @@
 
           var data = itineraryData[day];
 
-          requestDirections(day, data.routes, color, data.lat, data.lng);
+          requestDirections(day, data.routes, color, data.lat, data.lng, data.place_id);
         });
 
         $('.select-day')[0].click();
       }
 
-      // google.maps.event.addDomListener(window, 'load', initialize);
+      google.maps.event.addDomListener(window, 'load', initialize);
     </script>
     
 </body>

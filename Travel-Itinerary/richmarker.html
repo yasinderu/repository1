@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		html,body{height:100%}
+		body{margin:0}
+		#map {width: 100%;height: 100%;}
+		.marker {width:60px;height:60px;border-radius:100%;border:8px solid rgba(255,255,255,0.7);box-shadow:5px 10px 10px rgba(0,0,0,0.5)}
+		.marker img{width:60px;height:60px;border-radius:100%;box-sizing:border-box;border:border:8px solid rgba(0,0,0,0);animation:clickme 0.5s ease}
+		.marker:after {
+		    content: "";
+		    position: absolute;
+		    bottom: -10px;
+		    left: 30px;
+		    border-style: solid;
+		    border-width: 15px 10px 0;
+		    border-color: white transparent;
+		    display: block;
+		    width: 0;
+		    z-index: 1;
+		}
+		#marker-content {width: 350px;height: 150px}
+
+		@keyframes clickme{
+		  50%{width:80px;height:80px;margin-left:-10px;margin-top:-10px}
+		  100%{border:8px solid rgba(0,0,0,0.9)}
+		}
+	</style>
+</head>
+<body>
+	<div id="map"></div>
+	<script type="text/javascript">
+		function init() {
+        var mapCenter = new google.maps.LatLng(-23.9974166,-46.2592806);
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 13,
+          center: mapCenter,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        })
+        
+        marker = new RichMarker({
+          position: mapCenter,
+          map: map,
+          draggable: false,
+          flat:true,
+          anchor: RichMarkerPosition.MIDDLE,
+          content: 
+'<div class="marker"><img src="http://digital-mkt.com/apeguaruja/img/ap1.jpg" /></div>'
+          });
+}
+      google.maps.event.addDomListener(window, 'load', init);
+	</script>
+</body>
+</html>
