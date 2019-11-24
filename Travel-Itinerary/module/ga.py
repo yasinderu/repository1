@@ -183,6 +183,7 @@ class ga(threading.Thread):
 		lat = []
 		lng = []
 		place_id = []
+		place_url = []
 		pops = self.initialPopulation(population)
 		for i in range(0, self.generations):
 			pops = self.nextGeneration(pops)
@@ -196,8 +197,12 @@ class ga(threading.Thread):
 			lng.append(loc[0]['geometry']['location']['lng'])
 			place_id.append(loc[0]['place_id'])
 
+		# for items in place_id:
+		# 	place_detail = gmaps.place(items)
+		# 	place_url.append(place_detail[0]['url'])
+
 		duration = self.getDuration(bestRoute)
-		result = {'routes': bestRoute, 'place_id': place_id, 'lat': lat, 'lng': lng, 'distance': final_distance, 'duration': duration}
+		result = {'routes': bestRoute, 'url': place_url, 'lat': lat, 'lng': lng, 'distance': final_distance, 'duration': duration}
 		end_time = time.time()
 		print("Best route : " + str(bestRoute))
 		print("Distance : " + str(final_distance))
