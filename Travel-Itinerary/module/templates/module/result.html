@@ -35,6 +35,7 @@
     <link href="{% static "css/blog.css" %}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static "css/style2.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "MDB-Free/css/mdb.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/helper.css" %}">
   </head>
   <body>
 <div class="container">
@@ -58,12 +59,21 @@
     {% if cluster > 0 %}
       <div class="row map-box map-box-{{cluster}}" style="display: none">
         <div id="map_canvas{{cluster}}" class="row mc_center"></div>
-        <div class="row justify-content-center">
-          <div col-4>
-            hasil  
-          </div>
-          <div col-4>
-            hasil2  
+        <div class="col-md-12">
+          <div class="daftar-lokasi">
+            <div class="detail-lokasi">
+              <div class="text-center">Rute Hari Ke- {{cluster}}</div>
+                <div class="row">
+                  {% for route in result.routes %}
+                    <div class="col-md-6 text-center card shadow location-box">
+                      {{route}}
+                    </div>
+                    <div class="col-md-6 text-center location-box">
+                      detail
+                    </div>
+                  {% endfor %}
+                </div>
+            </div>
           </div>
         </div>
       </div>    

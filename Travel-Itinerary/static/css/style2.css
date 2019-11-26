@@ -1,104 +1,192 @@
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        /*background: #c0d9f8;*/
-        overflow: auto;
-      }
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  /*background: #c0d9f8;*/
+  overflow: auto;
+}
+.mc_center {
+  height: 500px;
+  width: 1200px;
+}
+.right-box {
+  height: 93.5%;
+  overflow: auto;
+}
+.box-warna {
+  width: 100px;
+  height: 10px;
+  margin-top: 5px;
+}
+.box-warna div {
+  width: 100%;
+  height: 100%;
+}
+.daftar-lokasi {
+  padding-top: 30px;
+}
+.detail-lokasi {
+  background: #ffffff;
+  border-radius: 8px;
+  margin-right: 5%;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+.location-box {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #cccccc;
+  border-bottom: 2px dotted #cccccc;
+  /*margin-right: 15px;*/
+  background: #4285F4;
+}
 
-      .mc_center {
-        height: 100%;
-        width: 100%;
-      }
+.location-box.distance {
+  background: #ffffff;
+}
 
-      .map-marker {
-        position: absolute;
-        background-color: #fff;
-        width: 155px;
-        height: 40px;
-        border-radius: 100px;
-        padding: 4px;
-        padding-right: 15px;
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-        top: -42px;
-        left: -77px;
-        -webkit-box-shadow: 0 2px 5px #999;
-        box-shadow: 0 2px 5px #999;
-        z-index: 4;
-        color: #4a4a4a;
-      }
+.location-box:not(:nth-child(1)) {
+  border-top: 0;
+}
 
-      .map-marker .loc-detil {
-        position: relative;
-        z-index: 2;
-        width: 32px;
-        height: 32px;
-        float: left;
-        border-radius: 20px;
-        color: #fff;
-        text-align: center;
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-        font-size: 16px;
-        line-height: 19px;
-        padding-top: 2px;
-      }
+.no-padding {
+  margin-left: 0;
+}
 
-      .map-marker .loc-name {
-        margin-top: 2px;
-        margin-left: 43px;
-        font-size: 15px;
-        white-space: nowrap;
-        overflow: hidden;
-        -o-text-overflow: ellipsis;
-        text-overflow: ellipsis;
-        font-weight: 400;
-      }
+.map-marker {
+  position: absolute;
+  background-color: #fff;
+  width: 155px;
+  height: 40px;
+  border-radius: 100px;
+  padding: 4px;
+  padding-right: 15px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  top: -42px;
+  left: -77px;
+  -webkit-box-shadow: 0 2px 5px #999;
+  box-shadow: 0 2px 5px #999;
+  z-index: 4;
+  color: #4a4a4a;
+}
 
-      .map-marker .loc-name span {
-        display: block;
-        font-size: 10px;
-        margin-top: -2px;
-        font-weight: 200;
-      }
+.map-marker .loc-detil {
+  position: relative;
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  float: left;
+  border-radius: 20px;
+  color: #fff;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 16px;
+  line-height: 19px;
+  padding-top: 2px;
+}
 
-      .days-selection-outer {
-        background: #000000;
-        color: #fff;
-        margin: 0 auto;
-        height: 50px;
-        /*overflow-y: auto;*/
-      }
+.map-marker .loc-name {
+  margin-top: 2px;
+  margin-left: 43px;
+  font-size: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  font-weight: 400;
+}
 
-      .days-selection ul {
-        list-style: none;
-        padding-top: 10px;
-        height: 100%;
-      }
+.map-marker .loc-name span {
+  display: block;
+  font-size: 10px;
+  margin-top: -2px;
+  font-weight: 200;
+}
 
-      .days-selection ul li {
-        float: left;
-      }
+.loc-marker {
+  line-height: 15pt;
+  text-align: justify;
+}
 
-      .days-selection .fixed-dt {
-        padding-top: 5px;
-        font-weight: bold;
-        margin-right: 15px;
-        font-size: 17px;
-      }
+.loc-marker .lmn {
+  font-size: 20px;
+  margin-bottom: -10px;
+}
 
-      .days-selection .select-day {
-        cursor: pointer;
-        background: #fff;
-        color: #000;
-        padding: 3px 10px;
-        border-radius: 3px;
-        margin-right: 8px;
-        font-size: 18px;
-      }
+.loc-marker .loc-img {
+  text-align: center;
+  width: 100%;
+}
 
-      .days-selection .select-day.selected {
-        background: #4285F4;
-        color: #fff;
-      }
+.days-selection-outer {
+  background: #000000;
+  color: #fff;
+  margin: 0 auto;
+  height: 50px;
+  overflow-y: auto;
+}
+
+.days-selection ul {
+  list-style: none;
+  padding-top: 10px;
+  height: 100%;
+}
+
+.days-selection ul li {
+  float: left;
+}
+
+.days-selection .fixed-dt {
+  padding-top: 5px;
+  font-weight: bold;
+  margin-right: 15px;
+  font-size: 17px;
+}
+
+.days-selection .select-day {
+  cursor: pointer;
+  background: #fff;
+  color: #000;
+  padding: 3px 10px;
+  border-radius: 3px;
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+.days-selection .select-day.selected {
+  background: #4285F4;
+  color: #fff;
+}
+
+.on-loading {
+  width: 100%;
+  height: 100%;
+  background: #4a4a4a;
+  color: #fff;
+  font-size: 30px;
+}
+
+.dlp-head-outer {
+  background: #000000;
+  color: #fff;
+  margin: 0 auto;
+  height: 50px;
+}
+
+.dlp-head {
+  font-size: 22px;
+  color: #fff;
+}
+
+.btn-unduh {
+  position: absolute;
+  left: 90%;
+  margin-top: -5px;
+}
+
+.btn-unduh a:link, .btn-unduh a:hover, .btn-unduh a:visited {
+  color: #fff;
+  text-decoration: none;
+}
