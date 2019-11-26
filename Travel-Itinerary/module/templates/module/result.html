@@ -65,12 +65,14 @@
               <div class="text-center">Rute Hari Ke- {{cluster}}</div>
                 <div class="row">
                   {% for route in result.routes %}
-                    <div class="col-md-6 text-center card shadow location-box">
-                      {{route}}
+                  <ul class="card shadow">
+                    <div class="col-md-6 text-center location-box">
+                      <li>{{route}}</li>
                     </div>
                     <div class="col-md-6 text-center location-box">
                       detail
                     </div>
+                  </ul>
                   {% endfor %}
                 </div>
             </div>
@@ -85,7 +87,7 @@
 
 <!-- Footer -->
 <script src="{% static "js/jquery-3.2.1.min.js" %}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR API KEY&libraries=geometry,places"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=&libraries=geometry,places"></script>
 <script type="text/javascript" src="{% static "js/richmarker.js" %}"></script>
 <script type="text/javascript">
       function initialize() {
