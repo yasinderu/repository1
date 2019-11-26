@@ -1,5 +1,6 @@
 {% load static %}
-<html lang="en"><head>
+<html lang="en">
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -10,7 +11,7 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/blog/">
 
     <!-- Bootstrap core CSS -->
-<link rel="stylesheet" type="text/css" href="{% static "vendor/bootstrap/css/bootstrap.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "vendor/bootstrap/css/bootstrap.min.css" %}">
 
 
     <style>
@@ -29,142 +30,249 @@
         }
       }
 
-      #map {
-        height: 500px;
-        width: 100%;
+      @media print{
+        .container{
+          width: 100%;
+        }
+
+        .help-text-outer, .help-text {
+          display: none;
+        }
       }
+
     </style>
     <!-- Custom styles for this template -->
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="{% static "css/blog.css" %}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static "css/style2.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "MDB-Free/css/mdb.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/helper.css" %}">
   </head>
-  <body>
-<div class="container">
-  <header class="blog-header py-3">
-    <div class="row flex-nowrap justify-content-between align-items-center">
-      <div class="col-4 pt-1">
-        <a class="text-muted" href="#"></a>
-      </div>
-      <div class="col-4 text-center">
-        <a class="blog-header-logo text-dark" href="#"></a>
-      </div>
-      <div class="col-4 d-flex justify-content-end align-items-center">
-        <a class="btn btn-sm btn-outline-secondary" href="#">Sign up</a>
-      </div>
-    </div>
-  </header>
-  <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
-    <div class="col-md-6 px-0">
-      <h1 class="display-4 font-italic"></h1>
-      <p class="lead my-3"></p>
-      <p class="lead mb-0"><a href="#" class="text-white font-weight-bold"></a></p>
+<body>
+  <div class="help-text-outer dlp-head-outer">
+    <div class="help-text h-v-center">
+      Tekan CTRL+P untuk mendownload atau print
     </div>
   </div>
-  
-    <div class="row mb-2">
-    {% for cluster, result in results.items %}
-      <div class="col-sm-6">
-        <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-          <div class="col p-4 d-flex flex-column position-static">
-            {# {% for day in days %} #}
-              <h3 class="mb-0">Rute Hari Ke : {{cluster}} </h3>
-            {# {% endfor %} #}
-            <div class="mb-1 text-muted"></div>
-            <ul style="list-style-type:square;">
-              {% for route in result.routes %}
-              <li>{{route}}</li>
-              {% endfor %}
-              <br>
-            </ul>
-            <p>Total Jarak : {{result.distance}} KM</p>
-            <p>Total Durasi : {{result.duration}}</p>
-          </div>
-          <div class="col-auto d-none d-lg-block">
-            <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><rect width="100%" height="100%" fill="#55595c"></rect></button><text x="50%" y="50%" fill="#eceeef" dy=".3em">tes</text></svg>
-            {# <h5 id="select">test</h5> #}
-          </div>
-
-        </div>
-      </div>
-    {% endfor %}
+  <div class="dlp-head-outer">
+    <div class="dlp-head h-v-center">
+      Rencana Perjalanan Anda
     </div>
-    <div id="map"></div>
-</div>
+  </div>
 
-<!-- Footer -->
-<footer class="page-footer font-small cyan darken-3">
-
-  <!-- Footer Elements -->
   <div class="container">
-
-    <!-- Grid row-->
-    <div class="row">
-
-      <!-- Grid column -->
-      <div class="col-md-12 py-5">
-        <div class="mb-5 flex-center">
-
-          <!-- Facebook -->
-          <a class="fb-ic">
-            <i class="fab fa-facebook-f fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-          </a>
-          <!-- Twitter -->
-          <a class="tw-ic">
-            <i class="fab fa-twitter fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-          </a>
-          <!-- Google +-->
-          <a class="gplus-ic">
-            <i class="fab fa-google-plus-g fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-          </a>
-          <!--Linkedin -->
-          <a class="li-ic">
-            <i class="fab fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-          </a>
-          <!--Instagram-->
-          <a class="ins-ic">
-            <i class="fab fa-instagram fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-          </a>
-          <!--Pinterest-->
-          <a class="pin-ic">
-            <i class="fab fa-pinterest fa-lg white-text fa-2x"> </i>
-          </a>
+    <header class="blog-header py-3">
+        <div class="days-selection-outer">
+          <div class="days-selection h-center">
+            <ul>
+              <li class="fixed-dt">Hari ke - </li>
+              {% for cluster, result in results.items %}
+                {% if cluster == 1 %}
+                  <li class="select-day selected" day="{{cluster}}">{{cluster}}</li>
+                {% else %}
+                  <li class="select-day" day="{{cluster}}">{{cluster}}</li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
         </div>
-      </div>
-      <!-- Grid column -->
-
-    </div>
-    <!-- Grid row-->
-
+    </header>
+      {% for cluster, result in results.items %}
+      {% if cluster > 0 %}
+        <div class="row map-box map-box-{{cluster}}" style="display: none">
+          <div id="map_canvas{{cluster}}" class="row mc_center"></div>
+          <div class="col-md-12">
+            <div class="daftar-lokasi">
+              <div class="detail-lokasi">
+                <div class="text-center mb-4"><h1>Rute Hari Ke- {{cluster}}</h1></div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <ul>
+                      {% for route in result.routes %}
+                        <div class="card shadow mb-4 rute">
+                          <li>
+                            <div class="row">
+                              <div class="col-md-6 text-center"><h3>{{route}}</h3></div>
+                              <div class="col-md-6 text-center"><p>detail</p></div>
+                            </div>
+                          </li>
+                        </div>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="card shadow mb-4">
+                      <div class="card-header text-center"><h3>Total Jarak Perjalanan</h3></div>
+                      <div class="card-body text-center">{{result.distance}}</div>
+                    </div>
+                    <div class="card shadow mb-4">
+                      <div class="card-header text-center"><h3>Estimasi Waktu Perjalanan</h3></div>
+                      <div class="card-body text-center">{{result.duration}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>    
+      {% endif %}
+      {% endfor %}
   </div>
-  <!-- Footer Elements -->
 
-  <!-- Copyright -->
-  <div class="footer-copyright text-center py-3">© 2018 Copyright:
-    <a href="https://mdbootstrap.com/education/bootstrap/"> MDBootstrap.com</a>
-  </div>
-  <!-- Copyright -->
+<script src="{% static "js/jquery-3.2.1.min.js" %}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMxUjBrjxJGKIq48vQAAwbN4lLSlD16FQ&libraries=geometry,places"></script>
+<script type="text/javascript" src="{% static "js/richmarker.js" %}"></script>
+<script type="text/javascript">
+      function initialize() {
+        window.map = [];
 
-</footer>
-<!-- Footer -->
+        function renderDirections(day, result, color) {
+          var polylineOptions = {
+            strokeColor: color,
+            strokeWeight: 5,
+            strokeHeight: 10,
+            strokeOpacity: 1.0
+          };
 
-<script>
-  function initMap(){
-    var option = {
-      zoom: 10,
-      center: {lat: -7.8032076, lng: 110.3573354}
-    }
+          var dr = new google.maps.DirectionsRenderer({
+            polylineOptions: polylineOptions,
+            map: window.map[day],
+            preserveViewport: true
+          });
 
-    var map = new google.maps.Map(document.getElementById('map'), option);
+          dr.setDirections(result);
+        }
 
-    // $(document).ready(function(){
-    //   $("#select").click(fucntion(){
-    //     $("#map").toggle(1000);
-    //   });
-    // });  
-  } 
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMxUjBrjxJGKIq48vQAAwbN4lLSlD16FQ&callback=initMap"
-    async defer></script>
+        function requestDirections(day, locations, color, lat, lng) {
+          var elId = 'map_canvas' + day;
+
+          setTimeout(function () {
+            window.map[day] = new google.maps.Map(document.getElementById(elId), {
+              zoom: 13,
+              mapTypeId: google.maps.MapTypeId.ROADMAP,
+              center: new google.maps.LatLng(-7.797068, 110.370529)
+            });
+
+            var request = {
+              travelMode: google.maps.DirectionsTravelMode.DRIVING,
+              optimizeWaypoints: true
+            };
+
+            if (locations.length > 1) {
+              request.waypoints = [];
+            };
+
+            // var service = new google.maps..places.PlacesService(window.map[day]);
+
+            var marker = [];
+            for (var i = 0; i < locations.length; i++) {
+
+              if (i == 0 || i == locations.length){
+                var content = '<div class="map-marker">' +
+                '<div class="loc-detil" style="background-color:' + color + '"></div>' + 
+                '<div class="loc-name">' + 'Lokasi Anda' + '<br>';
+              }else{
+                var content = '<div class="map-marker">' +
+                '<div class="loc-detil" style="background-color:' + color + '"></div>' + 
+                '<div class="loc-name">' + locations[i] + '<br>';
+              }
+
+              if (i == 0 || i == locations.length) {
+                content += ' <span>Lokasi Awal & Akhir</span></div>';
+              } else {
+                content += ' <span>Destinasi ke-' + i + '</span></div>';
+              }
+
+              content += '</div>';
+
+              marker[i] = new RichMarker({
+                position: new google.maps.LatLng(lat[i], lng[i]),
+                map: window.map[day],
+                content: content,
+                shadow: 0
+              });
+
+              if (i === 0) {
+                request.origin = marker[i].getPosition();
+              } else if (i === locations.length - 1) {
+                request.destination = marker[i].getPosition();
+              } else {
+                request.waypoints.push({
+                  location: marker[i].getPosition(),
+                  stopover: true
+                });
+              }
+            }
+
+            var ds = new google.maps.DirectionsService();
+
+            ds.route(request, function (response, status) {
+              if (status === 'OK') {
+                renderDirections(day, response, color);
+
+                // var lastLoc = locations[locations.length - 1];
+                request.origin = request.destination;
+                request.waypoints = undefined;
+                request.destination = locations[locations.length - 1];
+
+                ds.route(request, function (response, status) {
+                  if (status === 'OK') {
+                    renderDirections(day, response, '#' + color.substr(1).split('').reverse().join(''));
+                  } else {
+                    console.log('Could not display directions due to: ' + status);
+                  }
+                });
+              } else {
+                console.log('Could not display directions due to: ' + status);
+              }
+            });
+          }, 2500);
+        }
+
+        var Data = '{{result_json}}';
+        var itineraryData = JSON.parse(Data.replace(/&quot;/g, '"'));
+
+        function getRandomColor() {
+          var letters = '0123456789ABCDEF';
+          var color = '#';
+          for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+          }
+        return color;
+      }
+
+        $('.select-day').click(function() {
+          var self = $(this);
+          var buttons = $('.select-day');
+          var color = getRandomColor();
+
+          buttons.each(function () {
+            $(this).removeClass('selected');
+          });
+
+          self.addClass('selected');
+
+          var day = $(this).attr('day');
+
+          var boxes = $('.map-box');
+
+          boxes.each(function () {
+            $(this).hide();
+          });
+
+          $('.map-box-' + day).fadeIn(500);
+
+          var data = itineraryData[day];
+
+          requestDirections(day, data.routes, color, data.lat, data.lng);
+        });
+
+        $('.select-day')[0].click();
+      }
+
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+    
 </body>
 </html> 

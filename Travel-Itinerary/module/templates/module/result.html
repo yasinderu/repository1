@@ -62,19 +62,34 @@
         <div class="col-md-12">
           <div class="daftar-lokasi">
             <div class="detail-lokasi">
-              <div class="text-center">Rute Hari Ke- {{cluster}}</div>
-                <div class="row">
-                  {% for route in result.routes %}
-                  <ul class="card shadow">
-                    <div class="col-md-6 text-center location-box">
-                      <li>{{route}}</li>
-                    </div>
-                    <div class="col-md-6 text-center location-box">
-                      detail
-                    </div>
+              <div class="text-center mb-4"><h1>Rute Hari Ke- {{cluster}}</h1></div>
+              <div class="row">
+                <div class="col-md-6">
+                  <ul>
+                    {% for route in result.routes %}
+                      <div class="card shadow mb-4 rute">
+                        <li>
+                          <div class="row">
+                            <div class="col-md-6 text-center"><h3>{{route}}</h3></div>
+                            <div class="col-md-6 text-center"><p>detail</p></div>
+                          </div>
+                        </li>
+                      </div>
+                    {% endfor %}
                   </ul>
-                  {% endfor %}
                 </div>
+                <div class="col-md-6">
+                  <div class="card shadow mb-4">
+                    <div class="card-header text-center"><h3>Total Jarak Perjalanan</h3></div>
+                    <div class="card-body text-center">{{result.distance}}</div>
+                  </div>
+                  <div class="card shadow mb-4">
+                    <div class="card-header text-center"><h3>Estimasi Waktu Perjalanan</h3></div>
+                    <div class="card-body text-center">{{result.duration}}</div>
+                  </div>
+                  <button type="submit"><a href="{% url 'unduh' %}"></a></button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -83,11 +98,8 @@
     {% endfor %}
 </div>
 
-<!-- Footer -->
-
-<!-- Footer -->
 <script src="{% static "js/jquery-3.2.1.min.js" %}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=&libraries=geometry,places"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMxUjBrjxJGKIq48vQAAwbN4lLSlD16FQ&libraries=geometry,places"></script>
 <script type="text/javascript" src="{% static "js/richmarker.js" %}"></script>
 <script type="text/javascript">
       function initialize() {

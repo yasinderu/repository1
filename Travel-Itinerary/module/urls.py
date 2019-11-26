@@ -5,5 +5,5 @@ from . import views
 
 urlpatterns = [
 	url(r'^itinerary/', views.index, name='itinerary'),
-	url(r'^result/', views.result, name='result'),
+	url(r'^unduh/', views.result, name='unduh'),
 ]

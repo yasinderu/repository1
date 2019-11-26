@@ -191,11 +191,11 @@ class ga(threading.Thread):
 		bestRouteIndex = self.rankRoutes(pops)[0][0]
 		bestRoute = pops[bestRouteIndex]
 
-		for item in bestRoute:
-			loc = gmaps.geocode(item)
-			lat.append(loc[0]['geometry']['location']['lat'])
-			lng.append(loc[0]['geometry']['location']['lng'])
-			place_id.append(loc[0]['place_id'])
+		# for item in bestRoute:
+		# 	loc = gmaps.geocode(item)
+		# 	lat.append(loc[0]['geometry']['location']['lat'])
+		# 	lng.append(loc[0]['geometry']['location']['lng'])
+		# 	place_id.append(loc[0]['place_id'])
 
 		# for items in place_id:
 		# 	place_detail = gmaps.place(items)

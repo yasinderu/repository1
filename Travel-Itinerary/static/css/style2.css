@@ -26,12 +26,20 @@ html, body {
   padding-top: 30px;
 }
 .detail-lokasi {
-  background: #ffffff;
-  border-radius: 8px;
-  margin-right: 5%;
+  background: #eaeaea;
+  border-radius: 20px;
   padding: 15px;
   margin-bottom: 20px;
 }
+.detail-lokasi h1 {
+  font-family: "Roboto"; 
+}
+
+.detail-lokasi h3 {
+  font-size: 20px;
+  font-family: "Roboto";
+}
+
 .location-box {
   padding: 10px;
   border-radius: 8px;
@@ -41,7 +49,7 @@ html, body {
   background: #4285F4;
 }
 
-.location-box li {
+.rute li {
   list-style-image: url('circle.png');
 }
 
