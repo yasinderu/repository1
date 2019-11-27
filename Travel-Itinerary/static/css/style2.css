@@ -6,9 +6,13 @@ html, body {
   overflow: auto;
 }
 .mc_center {
-  height: 500px;
+  height: 700px;
   width: 1200px;
+  box-sizing: border-box;
+  border:10px solid #3c4148;
+  border-radius:20px;
 }
+
 .right-box {
   height: 93.5%;
   overflow: auto;
