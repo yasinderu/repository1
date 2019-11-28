@@ -29,15 +29,12 @@
         }
       }
 
-      @media print{
-        .container{
+      @media print {
+        .container {
           width: 100%;
         }
 
-        .help-text-outer, .help-text {
-          display: none;
-        }
-        .unduh h3{
+        .unduh {
           display: none;
         }
       }
@@ -100,9 +97,7 @@
                     <div class="card-header text-center"><h3>Estimasi Waktu Perjalanan</h3></div>
                     <div class="card-body text-center">{{result.duration}}</div>
                   </div>
-                  <div class="text-center unduh">
-                    <h3>Tekan Ctrl + P untuk megunduh atau print</h3>
-                  </div>
+                  <h3 class="unduh">Tekan Ctrl + P untuk mengunduh atau print</h3>
                 </div>
               </div>
             </div>
@@ -114,7 +109,7 @@
 </div>
 
 <script src="{% static "js/jquery-3.2.1.min.js" %}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=&libraries=geometry,places"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMxUjBrjxJGKIq48vQAAwbN4lLSlD16FQ&libraries=geometry,places"></script>
 <script type="text/javascript" src="{% static "js/richmarker.js" %}"></script>
 <script type="text/javascript">
       function initialize() {
@@ -172,9 +167,9 @@
               }
 
               if (i == 0 || i == locations.length) {
-                content += ' <span style="color:#4a4a4a;">Lokasi Awal & Akhir</span></div>';
+                content += ' <span>Lokasi Awal & Akhir</span></div>';
               } else {
-                content += ' <span style="color:#4a4a4a;">Destinasi ke-' + i + '</span></div>';
+                content += ' <span>Destinasi ke-' + i + '</span></div>';
               }
 
               content += '</div>';
@@ -203,7 +198,6 @@
             ds.route(request, function (response, status) {
               if (status === 'OK') {
                 renderDirections(day, response, color);
-                // directionsRenderer.setDirections(response);
 
                 // var lastLoc = locations[locations.length - 1];
                 request.origin = request.destination;
@@ -214,7 +208,6 @@
                   if (status === 'OK') {
                     // renderDirections(day, response, '#' + color.substr(1).split('').reverse().join(''));
                     renderDirections(day, response, color);
-                    // directionsRenderer.setDirections(response);
                   } else {
                     console.log('Could not display directions due to: ' + status);
                   }

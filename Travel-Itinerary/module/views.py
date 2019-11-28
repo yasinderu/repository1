@@ -12,7 +12,7 @@ import json
 gmaps = googlemaps.Client(key=key)
 
 def index(request):
-	template_name = 'module/index.html'
+	template_name = 'module/index1.html'
 	context = {
 		'page_title': 'Create Itinerary',
 	}
@@ -104,14 +104,15 @@ def index(request):
 # 	pass
 
 def result(request):
-	if request.session.has_key('result'):
-		result = request.session['result']
-		result_json = request.session['result_json']
-		context = {
-			'results': result,
-			'result_json':result_json,
-		}
-		return render(request, 'module/result2.html', context)
+	# if request.session.has_key('result'):
+	result = {}
+	result = request.session['result']
+	result_json = request.session['result_json']
+	context = {
+		'results':result,
+		'result_json':result_json
+	} 
+	return render(request, 'module/result2.html', context)
 
 def split(arr, size):
 	arrs = []
