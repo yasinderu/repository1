@@ -1,6 +1,5 @@
 {% load static %}
-<html lang="en">
-  <head>
+<html lang="en"><head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -30,16 +29,15 @@
         }
       }
 
-      @media print{
-        .container{
+      @media print {
+        .container {
           width: 100%;
         }
 
-        .help-text-outer, .help-text {
+        .unduh {
           display: none;
         }
       }
-
     </style>
     <!-- Custom styles for this template -->
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
@@ -49,79 +47,66 @@
     <link rel="stylesheet" type="text/css" href="{% static "MDB-Free/css/mdb.min.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "css/helper.css" %}">
   </head>
-<body>
-  <div class="help-text-outer dlp-head-outer">
-    <div class="help-text h-v-center">
-      Tekan CTRL+P untuk mendownload atau print
-    </div>
-  </div>
-  <div class="dlp-head-outer">
-    <div class="dlp-head h-v-center">
-      Rencana Perjalanan Anda
-    </div>
-  </div>
-
-  <div class="container">
-    <header class="blog-header py-3">
-        <div class="days-selection-outer">
-          <div class="days-selection h-center">
-            <ul>
-              <li class="fixed-dt">Hari ke - </li>
-              {% for cluster, result in results.items %}
-                {% if cluster == 1 %}
-                  <li class="select-day selected" day="{{cluster}}">{{cluster}}</li>
-                {% else %}
-                  <li class="select-day" day="{{cluster}}">{{cluster}}</li>
-                {% endif %}
-              {% endfor %}
-            </ul>
-          </div>
+  <body>
+<div class="container">
+  <header class="blog-header py-3">
+      <div class="days-selection-outer">
+        <div class="days-selection h-center">
+          <ul>
+            <li class="fixed-dt">Hari ke - </li>
+            {% for cluster, result in results.items %}
+              {% if cluster == 1 %}
+                <li class="select-day selected" day="{{cluster}}">{{cluster}}</li>
+              {% else %}
+                <li class="select-day" day="{{cluster}}">{{cluster}}</li>
+              {% endif %}
+            {% endfor %}
+          </ul>
         </div>
-    </header>
-      {% for cluster, result in results.items %}
-      {% if cluster > 0 %}
-        <div class="row map-box map-box-{{cluster}}" style="display: none">
-          <div id="map_canvas{{cluster}}" class="row mc_center"></div>
-          <div class="col-md-12">
-            <div class="daftar-lokasi">
-              <div class="detail-lokasi">
-                <div class="text-center mb-4"><h1>Rute Hari Ke- {{cluster}}</h1></div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <ul>
-                      {% for route in result.routes %}
-                        <div class="card shadow mb-4 rute">
-                          <li>
-                            <div class="row">
-                              <div class="col-md-6 text-center"><h3>{{route}}</h3></div>
-                              <div class="col-md-6 text-center"><p>detail</p></div>
-                            </div>
-                          </li>
-                        </div>
-                      {% endfor %}
-                    </ul>
+      </div>
+  </header>
+    {% for cluster, result in results.items %}
+    {% if cluster > 0 %}
+      <div class="row map-box map-box-{{cluster}}" style="display: none">
+        <div id="map_canvas{{cluster}}" class="row mc_center"></div>
+        <div class="col-md-12">
+          <div class="daftar-lokasi">
+            <div class="detail-lokasi">
+              <div class="text-center mb-4"><h1>Rute Hari Ke- {{cluster}}</h1></div>
+              <div class="row">
+                <div class="col-md-6">
+                  <ul>
+                    {% for route, detail in result.routes %}
+                      <div class="card shadow mb-4 rute">
+                        <li>
+                            <div class="text-center"><h3>{{route}}</h3></div>
+                        </li>
+                      </div>
+                    {% endfor %}
+                  </ul>
+                </div>
+                <div class="col-md-6">
+                  <div class="card shadow mb-4">
+                    <div class="card-header text-center"><h3>Total Jarak Perjalanan</h3></div>
+                    <div class="card-body text-center"><img src="{% static "css/car.png" %}"> : ± {{result.distance}} KM</div>
                   </div>
-                  <div class="col-md-6">
-                    <div class="card shadow mb-4">
-                      <div class="card-header text-center"><h3>Total Jarak Perjalanan</h3></div>
-                      <div class="card-body text-center">{{result.distance}}</div>
-                    </div>
-                    <div class="card shadow mb-4">
-                      <div class="card-header text-center"><h3>Estimasi Waktu Perjalanan</h3></div>
-                      <div class="card-body text-center">{{result.duration}}</div>
-                    </div>
+                  <div class="card shadow mb-4">
+                    <div class="card-header text-center"><h3>Estimasi Waktu Perjalanan</h3></div>
+                    <div class="card-body text-center"><img src="{% static "css/clock.png" %}"> : ± {{result.duration}}</div>
                   </div>
+                  <h3 class="unduh text-center">Tekan Ctrl + P untuk mengunduh atau print</h3>
                 </div>
               </div>
             </div>
           </div>
-        </div>    
-      {% endif %}
-      {% endfor %}
-  </div>
+        </div>
+      </div>    
+    {% endif %}
+    {% endfor %}
+</div>
 
 <script src="{% static "js/jquery-3.2.1.min.js" %}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMxUjBrjxJGKIq48vQAAwbN4lLSlD16FQ&libraries=geometry,places"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=&libraries=geometry,places"></script>
 <script type="text/javascript" src="{% static "js/richmarker.js" %}"></script>
 <script type="text/javascript">
       function initialize() {
@@ -218,7 +203,8 @@
 
                 ds.route(request, function (response, status) {
                   if (status === 'OK') {
-                    renderDirections(day, response, '#' + color.substr(1).split('').reverse().join(''));
+                    // renderDirections(day, response, '#' + color.substr(1).split('').reverse().join(''));
+                    renderDirections(day, response, color);
                   } else {
                     console.log('Could not display directions due to: ' + status);
                   }

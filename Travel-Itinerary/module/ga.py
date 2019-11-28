@@ -34,7 +34,6 @@ class ga(threading.Thread):
 			totalDuration = int(duration/3600), 'Jam', int(duration%3600)/60, 'Menit'
 		else:
 			totalDuration = int(duration/60), 'Menit'
-		# totalDuration = duration	
 		return totalDuration
 
 	def routeDistance(self, route):
@@ -61,7 +60,6 @@ class ga(threading.Thread):
 	def createRoute(self, population):
 		route = random.sample(population, len(population))
 		route.insert(0, self.origin)
-		# print(route)
 		return route
 
 	def initialPopulation(self, populations):
@@ -93,7 +91,6 @@ class ga(threading.Thread):
 				if pick <= df.iat[i,3]:
 					selectionResults.append(popRanked[i][0])
 					break
-		# print(selectionResults)
 		return selectionResults
 
 	def matingPool(self, currentGen, selectionResults):
@@ -101,7 +98,6 @@ class ga(threading.Thread):
 		for i in range(0, len(selectionResults)):
 			index = selectionResults[i]
 			matingpool.append(currentGen[index])
-		# print(matingpool)
 		return matingpool
 
 	def breed(self, parent1, parent2):
@@ -118,18 +114,12 @@ class ga(threading.Thread):
 		if startGene == 0:
 			startGene += 1
 
-		# print(startGene)
 		for i in range(startGene, endGene):
 			childP1.append(parent1[i])
 
 		childP2 = [item for item in parent2 if item not in childP1]
 
 		child = childP2 + childP1
-		# print("childp1")
-		# print(childP1)
-		# print("childp2")
-		# print(childP2)
-		# print(child)
 		return child
 
 	def breedPopulation(self, matingpool):
@@ -167,7 +157,6 @@ class ga(threading.Thread):
 		for ind in range(0, len(children)):
 			mutatedInd = self.mutate(children[ind])
 			mutatedPop.append(mutatedInd)
-		# print(len(children))
 		return mutatedPop
 
 	def nextGeneration(self, currentGen):
@@ -197,15 +186,12 @@ class ga(threading.Thread):
 			lng.append(loc[0]['geometry']['location']['lng'])
 			place_id.append(loc[0]['place_id'])
 
-		# for items in place_id:
-		# 	place_detail = gmaps.place(items)
-		# 	place_url.append(place_detail[0]['url'])
-
 		duration = self.getDuration(bestRoute)
-		result = {'routes': bestRoute, 'url': place_url, 'lat': lat, 'lng': lng, 'distance': final_distance, 'duration': duration}
+		detail = list(zip(bestRoute, lat, lng, place_id))
+
+		result = {'routes': bestRoute, 'addr':detail, 'lat': lat, 'lng': lng, 'distance': int(final_distance), 'duration': duration}
 		end_time = time.time()
 		print("Best route : " + str(bestRoute))
 		print("Distance : " + str(final_distance))
 		print("Running Time : " + str(end_time - start_time))
-		# return bestRoute, final_distance
 		return result

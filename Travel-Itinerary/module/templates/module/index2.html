@@ -10,7 +10,7 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/blog/">
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" type="text/css" href="{% static "vendor/bootstrap/css/bootstrap.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "vendor/bootstrap3/css/bootstrap.min.css" %}">
 
 
     <style>
@@ -79,13 +79,13 @@
               <div class="col-md-6">
                     
                       <div class="card shadow mb-4">
-                        <div class="card-header"><h3>Total Jarak Perjalanan</h3></div>
-                        <div class="card-body">10km</div>
-                      </div>
-                      <div class="card shadow mb-4">
-                        <div class="card-header"><h3>Total Jarak Perjalanan</h3></div>
-                        <div class="card-body">10km</div>
-                      </div>
+                      <div class="card-header text-center"><h3>Total Jarak Perjalanan</h3></div>
+                      <div class="card-body text-center"><img src="{% static "css/car.png" %}"> : {{result.distance}} KM</div>
+                    </div>
+                    <div class="card shadow mb-4">
+                      <div class="card-header text-center"><h3>Estimasi Waktu Perjalanan</h3></div>
+                      <div class="card-body text-center"><span class="glyphicon glyphicon-time" style="font-size:25px"></span>{{result.duration}} Jam</div>
+                    </div>
                    
                   </div>
             </div>

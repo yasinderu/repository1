@@ -84,11 +84,11 @@ def index(request):
 			
 			results = json.dumps(result)
 			print(result)
-			# print(results)
 			context = {
-				'page_title':'Results',
+				'page_title':'Rencana Perjalanan Anda',
 				'results':result,
 				'result_json':results,
+				# 'addr': addr
 			}
 
 			request.session['result'] = result
@@ -110,7 +110,7 @@ def result(request):
 	result_json = request.session['result_json']
 	context = {
 		'results':result,
-		'result_json':result_json
+		'result_json':result_json,
 	} 
 	return render(request, 'module/result2.html', context)
 

@@ -76,12 +76,12 @@
               <div class="row">
                 <div class="col-md-6">
                   <ul>
-                    {% for route in result.routes %}
+                    {% for route, lat, lng, id in result.addr %}
                       <div class="card shadow mb-4 rute">
                         <li>
                           <div class="row">
                             <div class="col-md-6 text-center"><h3>{{route}}</h3></div>
-                            <div class="col-md-6 text-center"><p>detail</p></div>
+                            <div class="col-md-6 text-center unduh"><a href="https://www.google.com/maps/search/?api=1&query={{lat}},{{lng}}&query_place_id={{id}}" target="_blank">Detail</a></div>
                           </div>
                         </li>
                       </div>
@@ -91,13 +91,13 @@
                 <div class="col-md-6">
                   <div class="card shadow mb-4">
                     <div class="card-header text-center"><h3>Total Jarak Perjalanan</h3></div>
-                    <div class="card-body text-center">{{result.distance}}</div>
+                    <div class="card-body text-center"><img src="{% static "css/car.png" %}"> : ± {{result.distance}} KM</div>
                   </div>
                   <div class="card shadow mb-4">
                     <div class="card-header text-center"><h3>Estimasi Waktu Perjalanan</h3></div>
-                    <div class="card-body text-center">{{result.duration}}</div>
+                    <div class="card-body text-center"><img src="{% static "css/clock.png" %}"> : ± {{result.duration}}</div>
                   </div>
-                  <h3 class="unduh">Tekan Ctrl + P untuk mengunduh atau print</h3>
+                  <h3 class="unduh text-center">Tekan Ctrl + P untuk mengunduh atau print</h3>
                 </div>
               </div>
             </div>
@@ -109,7 +109,7 @@
 </div>
 
 <script src="{% static "js/jquery-3.2.1.min.js" %}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMxUjBrjxJGKIq48vQAAwbN4lLSlD16FQ&libraries=geometry,places"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=&libraries=geometry,places"></script>
 <script type="text/javascript" src="{% static "js/richmarker.js" %}"></script>
 <script type="text/javascript">
       function initialize() {

@@ -5,6 +5,9 @@ html, body {
   /*background: #c0d9f8;*/
   overflow: auto;
 }
+.jarak {
+  list-style-image: url('car.png');
+}
 .mc_center {
   height: 700px;
   width: 1200px;
