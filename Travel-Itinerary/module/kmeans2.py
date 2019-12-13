@@ -23,25 +23,28 @@ class clustering(threading.Thread):
 	def kmeans(self):
 		d = {'lat':self.lat, 'lng':self.lng}
 		df = pd.DataFrame(data=d, index=self.list_addr)
-		cons = int(len(self.list_addr)/self.nclusters)
-		print(df)
-		demand = []
-		for i in range(self.nclusters):
-			demand.append(cons)
+		# cons = int(len(self.list_addr)/self.nclusters)
+		
+		# demand = []
+		# for i in range(self.nclusters):
+		# 	demand.append(cons)
 
-		(C, M, F) = constrained_kmeans(df, demand)
+		# (C, M, F) = constrained_kmeans(df, demand)
+		kmeans = KMeans(n_clusters=self.nclusters)
+		kmeans.fit(df)
+		labels = kmeans.predict(df)
 
-		score = silhouette_score(df, M)
+		score = silhouette_score(df, labels)
 
 		print("silhouette_score : ")
 		print(score)
 
-		clusters = {}
-		n = 0
-		for item in M:
-			if item in clusters:
-				clusters[item].append(self.list_addr[n])
-			else:
-				clusters[item] = [self.list_addr[n]]
-			n+=1
-		return clusters
+		# clusters = {}
+		# n = 0
+		# for item in M:
+		# 	if item in clusters:
+		# 		clusters[item].append(self.list_addr[n])
+		# 	else:
+		# 		clusters[item] = [self.list_addr[n]]
+		# 	n+=1
+		return score

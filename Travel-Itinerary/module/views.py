@@ -5,6 +5,7 @@ from django.views import View
 import pandas as pd, time, random, numpy as np, operator, googlemaps, threading, concurrent.futures
 from .ga import ga
 from .kmeans import clustering
+# from .kmeans2 import clustering
 import json
 
 # Create your views here.
@@ -33,6 +34,9 @@ def index(request):
 
 		cluster = clustering(list_addr, nclusters)
 		route = cluster.kmeans()
+		# cluster = clustering(list_addr, nclusters)
+		# route = cluster.kmeans()
+		# return redirect('itinerary')
 		list_addr.insert(0, origin)
 		# list_addrM = ['candi prambanan','istana ratu boko','gembira loka zoo','kraton yogyakarta','malioboro yogyakarta','benteng vredeburg','candi mendut','candi borobudur','sindu kusuma edupark','jogja bay waterpark','Taman Sari, Patehan, Yogyakarta City, Special Region of Yogyakarta, Indonesia','alun alun kidul yogyakarta','taman pelangi jogja','taman pintar yogyakarta','pasar beringharjo yogyakarta','tebing breksi','museum gunungapi merapi','hutan pinus pengger','puncak becici','bukit paralayang watugupit']
 
@@ -83,7 +87,7 @@ def index(request):
 			# thread2.join()
 			
 			results = json.dumps(result)
-			print(result)
+			# print(result)
 			context = {
 				'page_title':'Rencana Perjalanan Anda',
 				'results':result,
