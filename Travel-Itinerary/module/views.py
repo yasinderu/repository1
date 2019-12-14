@@ -3,10 +3,8 @@ from django.contrib import messages
 from .key import key
 from django.views import View
 import pandas as pd, time, random, numpy as np, operator, googlemaps, threading, concurrent.futures
-# from .ga import ga
 from .ga2 import ga
 from .kmeans import clustering
-# from .kmeans2 import clustering
 import json
 
 # Create your views here.
@@ -60,78 +58,35 @@ def index(request):
 		# print(darr)
 		# print(distMatrice)
 
-		#initialize genetic algorithm & k-means class
-		# GA = ga(distMatrice, durMatrice, origin)
-
 		#return the route and final distance for each route
 		if list_addr is not None:
 			start_time = time.time()
+			result = {}
+			for i in range(0, nclusters):
+				result[i+1] = ga(route[i], origin).geneticAlgorithm()
 
-			# threads = []
-			# for i in range(0, nclusters):
-			# 	thread = ga(route[i], origin)
-			# 	thread.start()
-			# 	threads.append(thread)
-			# 	# print(thread)
+			# def worker(i):
+			# 	GA = ga(route[i], origin)
+			# 	return GA.geneticAlgorithm()
 
-			# for t in threads:
-			# 	t.join()
-			# 	print(t.join())
-
-			def worker(i):
-				GA = ga(route[i], origin)
-				GA.geneticAlgorithm()
-
-			with concurrent.futures.ThreadPoolExecutor() as executor:
-				result = [executor.submit(worker, i) for i in range(0, nclusters)]
-				print(result)
-
-				for f in concurrent.futures.as_completed(result):
-					print("result :")
-					print(f.result())
-			# result = {}
-			# for i in range(0, nclusters):
-			# 	result[i+1] = ga(route[i], origin).geneticAlgorithm()
-			# # 	# result[i+1] = GA.geneticAlgorithm(operator.itemgetter(i)(route))
-			
-			# results = json.dumps(result)
-			# # print(result)
-			# context = {
-			# 	'page_title':'Rencana Perjalanan Anda',
-			# 	'results':result,
-			# 	'result_json':results,
-			# 	# 'addr': addr
-			# }
-
-			# request.session['result'] = result
-			# request.session['result_json'] = results
+			# with concurrent.futures.ThreadPoolExecutor() as executor:
+			# 	start_time = time.time()
+			# 	results = [executor.submit(worker, i) for i in range(nclusters)]
+			# 	result = {}
+			# 	day = 0
+			# 	for f in concurrent.futures.as_completed(results):
+			# 		result[day + 1] = f.result()
+			# 		day += 1
+			result_json = json.dumps(result)
+			context = {
+				'page_title':'Rencana Perjalanan Anda',
+				'results':result,
+				'result_json':result_json,
+			}
 			end_time = time.time()
 			print (str(end_time - start_time))
-			return render(request, "module/result2.html")
-			# return render(request, template_name, context)
+			return render(request, template_name, context)
+			# return render(request, "module/result2.html")
 			# return redirect('itinerary')
 	
 	return render(request, template_name, context)
-
-# def viewMap(request, result):
-# 	pass
-
-def result(request):
-	# if request.session.has_key('result'):
-	result = {}
-	result = request.session['result']
-	result_json = request.session['result_json']
-	context = {
-		'results':result,
-		'result_json':result_json,
-	} 
-	return render(request, 'module/result2.html', context)
-
-def split(arr, size):
-	arrs = []
-	while len(arr) > size:
-		pice = arr[:size]
-		arrs.append(pice)
-		arr = arr[size:]
-	arrs.append(arr)
-	return arrs

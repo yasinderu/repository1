@@ -25,8 +25,8 @@ def constrained_kmeans(data, demand, maxiter=None, fixedprec=1e9):
 	while True:
 		itercnt += 1
 		
-		print("center : ")
-		print(C)
+		# print("center : ")
+		# print(C)
 		# memberships
 		g = nx.DiGraph()
 		g.add_nodes_from(range(0, data.shape[0]), demand=-1) # points
@@ -36,13 +36,13 @@ def constrained_kmeans(data, demand, maxiter=None, fixedprec=1e9):
 		# Calculating cost...
 		cost = np.array([np.linalg.norm(np.tile(data.T, len(C)).T - np.tile(C, len(data)).reshape(len(C) * len(data), C.shape[1]), axis=1)])
 		# Preparing data_to_C_edges...
-		print("jarak :")
-		print(np.tile(data.T, len(C)).T - np.tile(C, len(data)).reshape(len(C) * len(data), C.shape[1]))
+		# print("jarak :")
+		# print(np.tile(data.T, len(C)).T - np.tile(C, len(data)).reshape(len(C) * len(data), C.shape[1]))
 		data_to_C_edges = np.concatenate((np.tile([range(0, data.shape[0])], len(C)).T, np.tile(np.array([range(data.shape[0], data.shape[0] + C.shape[0])]).T, len(data)).reshape(len(C) * len(data), 1), cost.T * fixedprec), axis=1).astype(np.uint64)
 		# Adding to graph
 		g.add_weighted_edges_from(data_to_C_edges)
-		print("data to edge :")
-		print(data_to_C_edges)
+		# print("data to edge :")
+		# print(data_to_C_edges)
 		
 
 		a = len(data) + len(C)
@@ -53,8 +53,8 @@ def constrained_kmeans(data, demand, maxiter=None, fixedprec=1e9):
 		
 		# Calculating min cost flow...
 		f = nx.min_cost_flow(g)
-		print("min cost flow")
-		print(f)
+		# print("min cost flow")
+		# print(f)
 		
 		# assign
 		M_new = np.ones(len(data), dtype=np.int) * -1
@@ -62,8 +62,8 @@ def constrained_kmeans(data, demand, maxiter=None, fixedprec=1e9):
 			p = sorted(f[i].items(), key=lambda x: x[1])[-1][0]
 			M_new[i] = p - len(data)
 
-		print("label : ")
-		print(M_new)
+		# print("label : ")
+		# print(M_new)
 		# stop condition
 		if np.all(M_new == M):
 			# Stop

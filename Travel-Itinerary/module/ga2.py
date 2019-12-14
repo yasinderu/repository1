@@ -227,12 +227,12 @@ class ga():
 				toCity = bestRoute[i + 1]
 			else:
 				toCity = bestRoute[i]
-			dist.append(self.getDistance(fromCity, toCity))
+			dist.append(int(self.getDistance(fromCity, toCity)))
 
 		result = {'routes': bestRoute, 'dist': dist, 'addr':detail, 'lat': lat, 'lng': lng, 'distance': int(final_distance), 'duration': duration}
 		end_time = time.time()
 		print("Best route : " + str(bestRoute))
 		print("Distance : " + str(final_distance))
 		print("Running Time : " + str(end_time - start_time))
-		print(result)
+		# print(result)
 		return result
