@@ -36,10 +36,12 @@
 					        </div>
 					        <div class="destinations">
 					        	<label>Lokasi Tujuan</label>
-					        	<div class="form-group">
-					        		<input class="form-control select-destination" type="text" name="destination" required="required"/>
-					        		<div class="col-md-1 h-30 vertical-center">
-		                          		<div class="glyphicon glyphicon-remove remove-btn"></div>
+					        	<div class="form-group list">
+					        		<div class="col-md-10">
+					        			<input class="form-control select-destination" type="text" name="destination" required="required"/>
+					        		</div>
+					        		<div class="col-md-2">
+		                          		<div><img id="delete" src="{% static "images/icons/delete.png" %}"></div>
 		                        	</div>
 					        	</div>
 					        </div>
@@ -100,6 +102,12 @@
 	function activatePlacesSearch(){
         var origin = new google.maps.places.Autocomplete(document.getElementById('origin'));
 	}
+$("#delete").click(function(){
+	var dest = $(".destinations > div");
+	if (dest.length > 1){
+		$(this).parents(".list").remove();
+	}
+});
 </script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMxUjBrjxJGKIq48vQAAwbN4lLSlD16FQ&libraries=places&callback=activatePlacesSearch" async defer></script>
 </body>

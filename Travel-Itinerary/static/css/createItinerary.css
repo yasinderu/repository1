@@ -105,6 +105,10 @@ body {
   text-transform: uppercase;
   letter-spacing: .2em;
 }
+
+.destinations img {
+  cursor: pointer;
+}
 .two .form-group label {
   color: #FFFFFF;
 }

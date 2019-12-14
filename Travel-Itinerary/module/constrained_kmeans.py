@@ -12,11 +12,10 @@ def constrained_kmeans(data, demand, maxiter=None, fixedprec=1e9):
 
 	min_ = np.min(data, axis = 0)
 	max_ = np.max(data, axis = 0)
- 
-	C = np.array(pd.DataFrame(data = {'lat': list(data['lat'].sample(n=len(demand))), 'lng': list(data['lng'].sample(n=len(demand)))}))
+
+
+	C = np.array(data.sample(n = len(demand)))
 	data = np.array(data)
-	# C = min_ + np.random.random((len(demand), data.shape[1])) * (max_ - min_)
-	# C = np.array(dff)
 	M = np.array([-1] * len(data), dtype=np.int)
 
 	print("label awal : ")
