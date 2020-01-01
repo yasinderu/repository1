@@ -10,7 +10,7 @@ class ga():
 		self.distance_val = []
 		self.durations = []
 		self.origin = origin
-		self.popSize = 50
+		self.popSize = 10
 		self.eliteSize = 20
 		self.mutationRate = 0.01
 		self.generations = 50
@@ -57,7 +57,7 @@ class ga():
 			else:
 				toCity = route[i]
 			duration += self.durMatrice[fromCity][toCity] + 7200
-			print(duration)
+			# print(duration)
 			# durr = duration + 120
 		if int(duration/3600) > 1:
 			totalDuration = int(duration/3600), 'Jam', int(duration%3600/60), 'Menit'
@@ -67,7 +67,6 @@ class ga():
 
 	def routeDistance(self, route):
 		routeDistance = 0
-		threadss = []
 		for i in range(0, len(route)):
 			fromCity = route[i]
 			toCity = None
@@ -77,6 +76,8 @@ class ga():
 				toCity = route[i]
 			routeDistance += self.getDistance(fromCity, toCity)
 		totalDistance = routeDistance
+		# print("Total Distance :")
+		# print(totalDistance)
 		return totalDistance
 
 	def routeFitness(self, route):
@@ -84,11 +85,15 @@ class ga():
 			fitness = 1
 		else:
 			fitness = 1 / float(self.routeDistance(route))
+		# print ("fitness :")
+		# print (fitness)
 		return fitness
 
 	def createRoute(self, population):
 		route = random.sample(population, len(population))
 		route.insert(0, self.origin)
+		route.insert(len(route), self.origin)
+		# print(route)
 		return route
 
 	def initialPopulation(self, populations):
@@ -134,6 +139,8 @@ class ga():
 		childP1 = []
 		childP2 = []
 
+		# parent2.pop(len(parent2)-1)
+
 		geneA = int(random.random()*len(parent1))
 		geneB = int(random.random()*len(parent1))
 
@@ -143,12 +150,26 @@ class ga():
 		if startGene == 0:
 			startGene += 1
 
+		if endGene >= len(parent1)-1:
+			endGene -= 1
+
 		for i in range(startGene, endGene):
 			childP1.append(parent1[i])
+		
+		# childP1.insert(len(child), self.origin)
+		print("child 1 :")
+		print(childP1)
 
 		childP2 = [item for item in parent2 if item not in childP1]
+		childP2.pop(len(childP2)-1)
+
+		print("child 2 :")
+		print(childP2)
 
 		child = childP2 + childP1
+		# print("child :")
+		child.append(self.origin)
+		print(child)
 		return child
 
 	def breedPopulation(self, matingpool):
@@ -163,21 +184,29 @@ class ga():
 		for i in range(0, length):
 			child = self.breed(pool[i], pool[len(matingpool)-i-1])
 			children.append(child)
+		# print("children :")
 		# print(children)
 		return children
 
 	def mutate(self, individual):
-		for swapped in range(1, len(individual)):
+		for swapped in range(1, len(individual)-1):
 			if (random.random() <= self.mutationRate):
-				swapWith = int(random.random()*len(individual))
+				swapWith = int(random.random()*(len(individual)))
+
 				if swapWith == 0:
 					swapWith += 1
+
+				if swapWith >= len(individual)-1:
+					swapWith -= 1
 
 				city1 = individual[swapped]
 				city2 = individual[swapWith]
 
 				individual[swapped] = city2
 				individual[swapWith] = city1
+		# print(individual)
+		# individual.insert(0, self.origin)
+		# individual.insert(len(individual), self.origin)
 		return individual
 
 	def mutatePopulation(self, children):
@@ -186,6 +215,8 @@ class ga():
 		for ind in range(0, len(children)):
 			mutatedInd = self.mutate(children[ind])
 			mutatedPop.append(mutatedInd)
+		# print("mutate pop :")
+		# print(mutatedPop)
 		return mutatedPop
 
 	def nextGeneration(self, currentGen):
@@ -201,7 +232,6 @@ class ga():
 		lat = []
 		lng = []
 		place_id = []
-		place_url = []
 		population = self.population[1:len(self.population)]
 		pops = self.initialPopulation(population)
 		for i in range(0, self.generations):
@@ -216,23 +246,23 @@ class ga():
 			lng.append(loc[0]['geometry']['location']['lng'])
 			place_id.append(loc[0]['place_id'])
 
-		duration = self.getDuration(bestRoute)
-		detail = list(zip(bestRoute, lat, lng, place_id))
-
 		dist = []
-		for i in range(0, len(bestRoute)-1):
+		for i in range(0, len(bestRoute)):
 			fromCity = bestRoute[i]
 			toCity = None
 			if i + 1 < len(bestRoute):
 				toCity = bestRoute[i + 1]
 			else:
 				toCity = bestRoute[i]
-			dist.append(int(self.getDistance(fromCity, toCity)))
+			dist.append(int(self.getDistance(fromCity, toCity) / 1000))
 
-		result = {'routes': bestRoute, 'dist': dist, 'addr':detail, 'lat': lat, 'lng': lng, 'distance': int(final_distance), 'duration': duration}
+		duration = self.getDuration(bestRoute)
+		detail = list(zip(bestRoute, lat, lng, place_id, dist))
+
+		result = {'routes': bestRoute, 'addr':detail, 'lat': lat, 'lng': lng, 'distance': int(final_distance), 'duration': duration}
 		end_time = time.time()
 		print("Best route : " + str(bestRoute))
 		print("Distance : " + str(final_distance))
 		print("Running Time : " + str(end_time - start_time))
-		# print(result)
+		print(result)
 		return result

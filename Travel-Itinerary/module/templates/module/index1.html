@@ -26,7 +26,7 @@
 				      			<div>
 				      				<div>
 						      			<label>Jumlah Hari</label>
-		                            	<input class="form-control select2 select-destination" id="days" name="days" data-width="100%" required></input>
+		                            	<input class="form-control" id="days" name="days" data-width="100%" required></input>
 				      				</div>
 				      			</div>
 					        </div>
@@ -38,7 +38,7 @@
 					        	<label>Lokasi Tujuan</label>
 					        	<div class="form-group list">
 					        		<div class="col-md-10">
-					        			<input class="form-control select-destination" type="text" name="destination" required="required"/>
+					        			<input class="form-control select-destination" onfocus="this.value=''" type="text" name="destination" required="required"/>
 					        		</div>
 					        		<div class="col-md-2">
 		                          		<div><img id="delete" src="{% static "images/icons/delete.png" %}"></div>
@@ -99,9 +99,60 @@
 	</div>
 <script src="{% static "js/createItinerary.js" %}"></script>
 <script type="text/javascript">
-	function activatePlacesSearch(){
-        var origin = new google.maps.places.Autocomplete(document.getElementById('origin'));
-	}
+	// function activatePlacesSearch(){
+ //        var origin = new google.maps.places.Autocomplete(document.getElementById('origin'));
+	// }
+
+	window.initAutocomplete = function() {
+          function setListener(autoc, element)
+          {
+            autoc.addListener('place_changed', function () {
+              var place = autoc.getPlace();
+            });
+          }
+
+          function setAutocomplete(className)
+          {
+            var input = document.getElementsByClassName(className);
+
+            for (var i = 0; i < input.length; i++) {
+              $(input[i]).on('keypress', function (e) {
+                // When enter key pressed
+                if (e.keyCode === 13) {
+                  e.preventDefault();
+                }
+              });
+
+              // Membuat input ke i dapat menggunakan GoogleMaps Places Autocomplete.
+              var autoc = new google.maps.places.Autocomplete(input[i]);
+
+              setListener(autoc, $(input[i]));
+            }
+          }
+          setAutocomplete('select-destination');
+
+          function setRemovebtn(){
+		    $('.remove-btn').click(function () {
+		      var destinations = $('.destinations > div');
+		      if (destinations.length > 1) {
+		        $(this).parents('.destination-list').remove();
+		      }
+		    });
+		  }
+		  setRemovebtn();
+		  var input_destination = $('.destinations > div').first();
+		  // var input_destination_box = input_destination.find('.select-destination');
+
+		  $('#add-destination').click(function(){
+		    // input_destination_box.remove();
+		    var new_destination = input_destination.clone(true);
+		    var inputEl = new_destination.find('.select-destination');
+
+		    $('.destinations').append(new_destination);
+		    setAutocomplete('select-destination');
+		    setRemovebtn();
+		  });
+        }
 $("#delete").click(function(){
 	var dest = $(".destinations > div");
 	if (dest.length > 1){
@@ -109,6 +160,6 @@ $("#delete").click(function(){
 	}
 });
 </script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMxUjBrjxJGKIq48vQAAwbN4lLSlD16FQ&libraries=places&callback=activatePlacesSearch" async defer></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMxUjBrjxJGKIq48vQAAwbN4lLSlD16FQ&libraries=places&callback=initAutocomplete" async defer></script>
 </body>
 </html>

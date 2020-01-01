@@ -2,7 +2,7 @@ import pandas as pd, numpy as np, googlemaps
 from sklearn.cluster import KMeans
 from .key import key
 from .constrained_kmeans import constrained_kmeans
-from sklearn.metrics import silhouette_score
+# from sklearn.metrics import silhouette_score
 import threading
 
 gmaps = googlemaps.Client(key=key)
@@ -28,13 +28,16 @@ class clustering(threading.Thread):
 		demand = []
 		for i in range(self.nclusters):
 			demand.append(cons)
+		
+		# if nclusters == 1:
+		# 	kmeans = KMeans
 
 		(C, M, F) = constrained_kmeans(df, demand)
 
-		score = silhouette_score(df, M)
+		# score = silhouette_score(df, M)
 
-		print("silhouette_score : ")
-		print(score)
+		# print("silhouette_score : ")
+		# print(score)
 
 		clusters = {}
 		n = 0

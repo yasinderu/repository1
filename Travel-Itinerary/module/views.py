@@ -26,7 +26,7 @@ def index(request):
 		origin = request.POST['origin']
 		list_addr = dataCopy.pop('destination')
 
-		if len(list_addr) <= nclusters:
+		if len(list_addr) < nclusters:
 			messages.error(request, 'Jumlah destinasi tidak boleh kurang dari jumlah hari')
 			return redirect('itinerary')
 

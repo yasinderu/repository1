@@ -57,9 +57,9 @@ html, body {
   background: #4285F4;
 }
 
-.rute li {
+/* .rute li {
   list-style-image: url('circle.png');
-}
+} */
 
 .location-box.distance {
   background: #ffffff;

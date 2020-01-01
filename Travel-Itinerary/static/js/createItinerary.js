@@ -34,12 +34,3 @@ $(document).ready(function() {
   setRemovebtn();
   var input_destination = $('.destinations > div').first();
   // var input_destination_box = input_destination.find('.select-destination');
-
-  $('#add-destination').click(function(){
-    // input_destination_box.remove();
-    var new_destination = input_destination.clone(true);
-    // var inputEl = new_destination.find('.select-destination')
-    $('.destinations').append(new_destination);
-    setRemovebtn();
-  });
-});
